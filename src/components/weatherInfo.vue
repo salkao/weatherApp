@@ -2,15 +2,38 @@
   <div class="component">
       <div class="row locationInfo">
         <div class="col s12 ">
-          <h5>{{location.name}}, {{ location.country }}</h5>
+          <h5>
+            <i class="medium material-icons">location_on</i>
+            {{location.name}}, {{ location.country }}
+          </h5>
           <h6  id="dateTime"> {{ dateToDisplay }}</h6>
+        </div>
+      </div>
+      <div class="row astro">
+        <div class="col s6 ">
+          <img class="astroImage" src="../assets/sun.png" alt="Sun image">
+          <h6 class="astroInfo">Sunrise: {{ convertTimeTo24(astro.sunrise) }}</h6>
+          <h6 class="astroInfo">Sunset: {{ convertTimeTo24(astro.sunset) }}</h6>
+        </div>
+        <div class="col s6">
+          <img class="astroImage"
+                src="../assets/moon.png"
+                alt="Moon image"
+                width="64px"
+                height="64px">
+          <h6 class="astroInfo">Moonrise: {{ convertTimeTo24(astro.moonrise) }}</h6>
+          <h6 class="astroInfo">Moonset: {{ convertTimeTo24(astro.moonset) }}</h6>
         </div>
       </div>
 
       <div class="row currentInfo">
         <div class="col s4">
           <h6 id="conditionText">{{ currentWeather.condition.text }}</h6>
-          <img id="conditionIcon" v-bind:src="currentWeather.condition.icon" alt="Weather icon" width="126px" height="126px">
+          <img id="conditionIcon"
+                v-bind:src="currentWeather.condition.icon"
+                alt="Weather icon"
+                width="126px"
+                height="126px">
         </div>
         <div class="col s4">
             <h1>{{ currentWeather.temp_c }}&#8451;</h1>
@@ -39,12 +62,19 @@
         <div class="col s2 nextDays" v-for="(forecast, index) in forecasts"  :key="index">
           <h6 class="nextDaysDate">{{ getDateTime(index) }}</h6>
           <img v-bind:src="forecast.day.condition.icon" alt="Weather icon">
+          <h6 class="nextDaysTemp">{{roundTemp(forecast.day.maxtemp_c) }}&deg;
+            <span id="slash"> / </span>
+            <sup>{{ roundTemp(forecast.day.mintemp_c) }}&#8451;</sup>
+          </h6>
           <h6 class="nextDaysConditionText"> {{ forecast.day.condition.text }}</h6>
         </div>
       </div>
       <div class="row">
         <div class="col s12 rBtn">
-          <a @click="getWeather" class="waves-effect waves-light btn-large"><i class="material-icons right">refresh</i>refresh</a>
+          <a @click="getWeather" class="waves-effect waves-light btn-large myBtn">
+            <i class="material-icons right">refresh</i>
+            refresh
+          </a>
         </div>
       </div>
   </div>
@@ -69,19 +99,34 @@ export default {
   methods: {
     getCurrentDateTime() {
       const date = this.location.localtime.split(/[-\s:]/);
-      this.date = new Date(date[0], parseInt(date[1] - 1), date[2], date[3], date[4]);
-      this.dateToDisplay = `${this.days[this.date.getDay()]}, ${this.date.getDate()}. ${this.months[this.date.getMonth()]} ${this.date.getFullYear()}. ${this.date.getHours()<10?`0`+ this.date.getHours():this.date.getHours()}:${this.date.getMinutes()<10?`0` + this.date.getMinutes():this.date.getMinutes()}`;
+      this.date = new Date(date[0], parseInt(date[1], 10) - 1, date[2], date[3], date[4]);
+      this.dateToDisplay = `${this.days[this.date.getDay()]}, ${this.date.getDate()}. ${this.months[this.date.getMonth()]} ${this.date.getFullYear()}. ${this.date.getHours() < 10 ? '0' + this.date.getHours() : this.date.getHours()}:${this.date.getMinutes() < 10 ? '0' + this.date.getMinutes() : this.date.getMinutes()}`;
     },
     getWeather() {
       this.$store.dispatch('getCurrentWeather');
-      getDateTimeFormat();
+      this.getCurrentDateTime();
     },
     getDateTime(index) {
       const dateArray = this.forecasts[index].date.split('-');
-      const date = new Date(dateArray[0], parseInt(dateArray[1] - 1), dateArray[2]);
-      const dateToDisplay = `${this.days[date.getDay()]}, ${date.getDate()}. ${this.months[date.getMonth()]}`;
-      return dateToDisplay;
-    }
+      const date = new Date(dateArray[0], parseInt(dateArray[1], 10) - 1, dateArray[2]);
+      return `${this.days[date.getDay()]}, ${date.getDate()}. ${this.months[date.getMonth()]}`;
+    },
+    roundTemp(temp) {
+      const tempToReturn = Math.round(temp);
+      return tempToReturn;
+    },
+    convertTimeTo24(time12) {
+      const [time, mod] = time12.split(' ');
+      // eslint-disable-next-line
+      let [hours, minutes] = time.split(':');
+      if (hours === '12') {
+        hours = '00';
+      }
+      if (mod === 'PM') {
+        hours = parseInt(hours, 10) + 12;
+      }
+      return `${hours}:${minutes}`;
+    },
   },
   computed: {
     currentWeather() {
@@ -92,6 +137,9 @@ export default {
     },
     forecasts() {
       return this.$store.getters.forecastSixDays;
+    },
+    astro() {
+      return this.$store.getters.astro;
     },
   },
 };
@@ -106,10 +154,19 @@ export default {
     padding-bottom: 20px;
     border-bottom: 1px solid #fff;
   }
+  sup{
+    font-size: 14px;
+  }
+  #slash{
+    font-size: 26px;
+  }
+  .nextDaysTemp {
+    text-align: center;
+    font-size: 18px;
+  }
   .locationInfo {
     padding-top: 60px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #fff;
+    padding-bottom: 0px;
   }
   .currentInfo {
     padding-top: 10px;
@@ -120,14 +177,32 @@ export default {
   .currentTextInfo {
     padding-left: 40px;
   }
+  .astro {
+    padding-left: 100px;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 20px
+  }
+  .astroInfo {
+    text-align: left;
+  }
+  .astroImage {
+    float: left;
+  }
   #dateTime {
-    padding-left: 30px;
+    padding-left: 90px;
     font-size: 20px;
   }
   .nextDays {
     border-right: 1px solid #fff;
   }
+  .myBtn {
+    width: 200px;
+    text-align: right;
+    background: linear-gradient(to bottom,#3aa7fc, #0845af);
+    border-radius: 30px;
+  }
   .nextDaysRow {
+    padding-top: 20px;
     :last-child{
       border-right: none;
     }

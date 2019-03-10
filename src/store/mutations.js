@@ -7,8 +7,9 @@ export default {
   },
   [types.GET_FORECAST](state, forecast) {
     state.forecast = forecast;
-
-    //weather for next 6 days
+    // saving astro informations for current day, first element in faoracastday array
+    state.astro = state.forecast.forecast.forecastday[0].astro;
+    // weather for next 6 days
     if (state.forecastSixDays.length > 0) {
       state.forecastSixDays.length = 0;
       state.forecastSixDays = [];

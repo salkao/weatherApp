@@ -35,7 +35,8 @@ export default {
     min-width: 250px;
     background-color: #323232;
     border-radius: 20px;
-    min-height: 500px;
+    height: auto;
+    min-height: 950px;
 }
 .square-box:before{
     content: "";
