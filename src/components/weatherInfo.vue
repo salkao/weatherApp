@@ -28,14 +28,15 @@
 
       <div class="row currentInfo">
         <div class="col s4">
-          <h6 id="conditionText">{{ currentWeather.condition.text }}</h6>
           <img id="conditionIcon"
                 v-bind:src="currentWeather.condition.icon"
                 alt="Weather icon"
-                width="126px"
-                height="126px">
+                width="120px"
+                height="110px">
+          <h6 id="conditionText">{{ currentWeather.condition.text }}</h6>
+
         </div>
-        <div class="col s4">
+        <div class="col s4 temperature">
             <h1>{{ currentWeather.temp_c }}&#8451;</h1>
             <h6 id="feelsLike" >Feels like: {{ currentWeather.feelslike_c }}&#8451;</h6>
         </div>
@@ -49,13 +50,13 @@
       </div>
       <div class="row windInfo">
         <div class="col s4">
-            <h6 id="feelsLike" >Wind direction: {{ currentWeather.wind_dir }}</h6>
+            <h6 class="windText" >Wind direction: {{ currentWeather.wind_dir }}</h6>
         </div>
         <div class="col s4">
-            <h6 id="feelsLike" >Wind degree: {{ currentWeather.wind_degree }}&deg;</h6>
+            <h6 class="windText" >Wind degree: {{ currentWeather.wind_degree }}&deg;</h6>
         </div>
         <div class="col s4">
-            <h6 id="feelsLike" >Wind speed: {{ currentWeather.wind_kph }} kph</h6>
+            <h6 class="windText" >Wind speed: {{ currentWeather.wind_kph }} kph</h6>
         </div>
       </div>
       <div class="row nextDaysRow">
@@ -71,7 +72,7 @@
       </div>
       <div class="row">
         <div class="col s12 rBtn">
-          <a @click="getWeather" class="waves-effect waves-light btn-large myBtn">
+          <a @click="geolocation()" class="waves-effect waves-light btn-large myBtn">
             <i class="material-icons right">refresh</i>
             refresh
           </a>
@@ -96,15 +97,18 @@ export default {
   beforeUpdate() {
     this.getCurrentDateTime();
   },
+  beforeMount() {
+    this.geolocation();
+  },
   methods: {
     getCurrentDateTime() {
       const date = this.location.localtime.split(/[-\s:]/);
       this.date = new Date(date[0], parseInt(date[1], 10) - 1, date[2], date[3], date[4]);
       this.dateToDisplay = `${this.days[this.date.getDay()]}, ${this.date.getDate()}. ${this.months[this.date.getMonth()]} ${this.date.getFullYear()}. ${this.date.getHours() < 10 ? '0' + this.date.getHours() : this.date.getHours()}:${this.date.getMinutes() < 10 ? '0' + this.date.getMinutes() : this.date.getMinutes()}`;
     },
-    getWeather() {
-      this.$store.dispatch('getCurrentWeather');
-      this.getCurrentDateTime();
+    getWeather(lat, lon) {
+      console.log(lat, lon, 'getWeather');
+      this.$store.dispatch('getCurrentWeather', [lat, lon]);
     },
     getDateTime(index) {
       const dateArray = this.forecasts[index].date.split('-');
@@ -127,6 +131,18 @@ export default {
       }
       return `${hours}:${minutes}`;
     },
+    geolocation() {
+      navigator.geolocation.getCurrentPosition(this.buildUrl, this.geoError);
+    },
+    geoError() {
+      console.log('error');
+    },
+    buildUrl(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      console.log(lat, lon, 'buildUrl');
+      this.getWeather(lat, lon);
+    },
   },
   computed: {
     currentWeather() {
@@ -146,12 +162,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .temperature {
+    display: flex;
+    flex-direction: column;
+  }
   #conditionText {
     text-align: center;
+    margin-top: 0;
   }
   .windInfo {
     padding-top: 0;
     padding-bottom: 20px;
+    padding-left: 60px;
     border-bottom: 1px solid #fff;
   }
   sup{
@@ -165,12 +187,12 @@ export default {
     font-size: 18px;
   }
   .locationInfo {
-    padding-top: 60px;
+    padding-top: 20px;
     padding-bottom: 0px;
   }
   .currentInfo {
     padding-top: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 30px;
     padding-right: 0px;
     border-bottom: 1px solid #fff;
   }
@@ -220,7 +242,8 @@ export default {
   }
   #feelsLike {
     clear: both;
-    padding-left: 35px;
+    text-align: center;
+    padding-left: 25px;
   }
   h1 {
     margin: 20px;
@@ -237,10 +260,12 @@ export default {
   }
   h6 {
     text-align: left;
-
   }
   .rBtn{
     position: absolute;
     bottom: 30px;
+  }
+  .windText {
+
   }
 </style>

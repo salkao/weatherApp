@@ -3,9 +3,7 @@
       <titleNav id="titleNav"/>
     <div class='square-box'>
         <div class='square-content'>
-          <div class="navBar">
 
-          </div>
             <weatherInfo/>
         </div>
     </div>
@@ -37,6 +35,7 @@ export default {
     border-radius: 20px;
     height: auto;
     min-height: 950px;
+    border: 2px solid  #0845af;
 }
 .square-box:before{
     content: "";
