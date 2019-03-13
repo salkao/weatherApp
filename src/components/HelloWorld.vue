@@ -25,6 +25,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  @media only screen and (max-width: 600px) {
+    .square-box {
+      min-width: 300px !important;
+    }
+    #titleNav {
+      margin: 0 !important;
+      h1 {
+        font-size: 30px !important;
+      }
+    }
+  }
 .square-box{
     position: relative;
     width: 56%;

@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-      <hello-world/>
+  <div v-bind:class="[currentWeather.is_day ? day : night]" id="app">
+      <hello-world x/>
   </div>
 </template>
 
@@ -12,6 +12,12 @@ export default {
   components: {
     HelloWorld,
   },
+  data() {
+    return {
+      day: 'day',
+      night: 'night',
+    };
+  },
   computed: {
     currentWeather() {
       return this.$store.getters.currentWeather;
@@ -21,34 +27,42 @@ export default {
     this.$store.dispatch('getCurrentWeather');
   },
   methods: {
-
+    isDayMethod() {
+      console.log(this.currentWeather.is_day);
+    },
   },
 };
 </script>
 
 <style lang="scss">
 
-body {
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   padding: 50px 50px 150px 50px;
   margin: 0;
-  background-image: url('./assets/sky1.jpg');
 
   /* Full height */
   height: 100%;
+  width: 100%;
 
   /* Center and scale the image nicely */
   background-position: fixed;
   background-repeat: repeat-y;
-  background-size: auto;
+  background-size: cover;
 }
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 0;
-  width: 100%;
-  height: 100%;
+.day {
+  background-image: url('./assets/sky1.jpg');
+
 }
+.night {
+  background-image: url('./assets/clearNight.jpg');
+}
+// #app {
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+//   text-align: center;
+//   color: #2c3e50;
+//   margin: 0;
+//   height: 100%;
+// }
 </style>

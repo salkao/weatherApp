@@ -12,6 +12,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @media only screen and (max-width: 600px) {
+    h1 {
+      font-size: 40px !important;
+    }
+    h3 {
+      font-size: 15px !important;
+    }
+  }
 h1{
   font-size: 50px;
   color: #ffffff;

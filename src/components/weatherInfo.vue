@@ -2,45 +2,45 @@
   <div class="component">
       <div class="row locationInfo">
         <div class="col s12 ">
-          <h5>
             <i class="medium material-icons">location_on</i>
+          <h5 class="locationText">
             {{location.name}}, {{ location.country }}
           </h5>
           <h6  id="dateTime"> {{ dateToDisplay }}</h6>
         </div>
       </div>
       <div class="row astro">
-        <div class="col s6 ">
+        <div class="col m12 l6 s12 ">
           <img class="astroImage" src="../assets/sun.png" alt="Sun image">
           <h6 class="astroInfo">Sunrise: {{ convertTimeTo24(astro.sunrise) }}</h6>
           <h6 class="astroInfo">Sunset: {{ convertTimeTo24(astro.sunset) }}</h6>
         </div>
-        <div class="col s6">
+        <div class="col m12 l6 s12">
           <img class="astroImage"
                 src="../assets/moon.png"
                 alt="Moon image"
                 width="64px"
                 height="64px">
           <h6 class="astroInfo">Moonrise: {{ convertTimeTo24(astro.moonrise) }}</h6>
-          <h6 class="astroInfo">Moonset: {{ convertTimeTo24(astro.moonset) }}</h6>
+          <h6 v-if="astro.moonset === 'No moonset'" class="astroInfo">Moonset: No moonset </h6>
+          <h6 v-else class="astroInfo">Moonset: {{ convertTimeTo24(astro.moonset) }}</h6>
         </div>
       </div>
 
       <div class="row currentInfo">
-        <div class="col s4">
+        <div class="col l4 m6 s6">
           <img id="conditionIcon"
                 v-bind:src="currentWeather.condition.icon"
                 alt="Weather icon"
                 width="120px"
                 height="110px">
           <h6 id="conditionText">{{ currentWeather.condition.text }}</h6>
-
         </div>
-        <div class="col s4 temperature">
+        <div class="col l4 m6 s6 temperature">
             <h1>{{ currentWeather.temp_c }}&#8451;</h1>
             <h6 id="feelsLike" >Feels like: {{ currentWeather.feelslike_c }}&#8451;</h6>
         </div>
-        <div class="col s4">
+        <div class="col l4 m12 s12">
             <h6 class="currentTextInfo" >Clouds: {{ currentWeather.cloud }}%</h6>
             <h6 class="currentTextInfo" >Precipitation: {{ currentWeather.precip_mm }} mm</h6>
             <h6 class="currentTextInfo" >Humidity: {{ currentWeather.humidity }}%</h6>
@@ -162,6 +162,160 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @media only screen and (max-width: 1150px) {
+    .astro {
+      padding-left: 0px;
+      padding-bottom: 10px !important;
+      .astroInfo:nth-of-type(even) {
+          padding-top: 0px !important;
+        }
+      .astroInfo {
+        font-size: 16px;
+      }
+      img {
+        width: 70px;
+        height: 70px;
+      }
+    }
+    #conditionText {
+      font-size: 18px !important;
+    }
+    #feelsLike {
+      font-size: 18px !important;
+    }
+    .locationText {
+      font-size: 35px;
+    }
+    #dateTime {
+      font-size: 18px !important;
+      padding: 10px 10px !important;
+    }
+    .currentInfo {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+    .currentTextInfo {
+      padding-left: 0 !important;
+      font-size: 16px !important;
+      text-align: center;
+    }
+    img {
+      width: 100px;
+      height: 100px;
+    }
+    .temperature {
+      h1 {
+        font-size: 50px;
+      }
+    }
+    .row {
+      margin-bottom: 0px !important;
+    }
+    .windInfo {
+      padding-top: 20px !important;
+      padding-left: 10px !important;
+      padding-bottom: 20px !important;
+      .windText {
+        font-size: 16px !important;
+      }
+    }
+    .nextDays{
+      text-align: center !important;
+      padding: 10px !important;
+      .nextDaysDate {
+        text-align: center !important;
+        padding: 0 !important;
+        font-size: 16px !important;
+      }
+      img {
+        width: 35px;
+        height: 35px;
+      }
+      .nextDaysConditionText {
+        font-size: 16px !important;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .astro {
+      padding-left: 0px;
+      padding-bottom: 20px !important;
+      .astroInfo {
+        padding-top: 0px;
+        font-size: 12px;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    #conditionText {
+      font-size: 13px !important;
+    }
+    #feelsLike {
+      font-size: 13px !important;
+    }
+    .locationText {
+      font-size: 20px;
+    }
+    #dateTime {
+      font-size: 14px !important;
+      padding: 0px 10px 20px 10px !important;
+    }
+    .currentInfo {
+      padding-top: 0px !important;
+      padding-bottom: 20px !important;
+    }
+    .currentTextInfo {
+      padding-left: 0 !important;
+      font-size: 12px !important;
+      text-align: center;
+    }
+    img {
+      width: 90px;
+      height: 90px;
+    }
+    .temperature {
+      h1 {
+        font-size: 40px;
+      }
+    }
+    .row {
+      margin-bottom: 0px !important;
+    }
+    .windInfo {
+      padding-top: 20px !important;
+      padding-left: 10px !important;
+      padding-bottom: 20px !important;
+      .windText {
+        font-size: 12px !important;
+      }
+    }
+    .nextDays{
+      text-align: center !important;
+      padding: 0px !important;
+      .nextDaysDate {
+        text-align: center !important;
+        padding: 0 !important;
+        font-size: 10px !important;
+      }
+      img {
+        width: 35px;
+        height: 35px;
+      }
+      .nextDaysConditionText {
+        font-size: 11px !important;
+      }
+    }
+  }
+
+
+
+
+  .material-icons{
+    float: left;
+  }
   .temperature {
     display: flex;
     flex-direction: column;
@@ -185,6 +339,13 @@ export default {
   .nextDaysTemp {
     text-align: center;
     font-size: 18px;
+    color: red;
+    span {
+      color: #fff;
+    }
+    sup {
+      color: blue;
+    }
   }
   .locationInfo {
     padding-top: 20px;
@@ -200,10 +361,12 @@ export default {
     padding-left: 40px;
   }
   .astro {
-    padding-left: 100px;
+    padding-left: 10%;
+    padding-right: 10%;
     border-bottom: 1px solid #fff;
     padding-bottom: 20px
   }
+
   .astroInfo {
     text-align: left;
   }
