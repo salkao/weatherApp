@@ -26,11 +26,6 @@ export default {
   beforeMount() {
     this.$store.dispatch('getCurrentWeather');
   },
-  methods: {
-    isDayMethod() {
-      console.log(this.currentWeather.is_day);
-    },
-  },
 };
 </script>
 

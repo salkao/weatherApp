@@ -29,12 +29,6 @@ export default {
     .square-box {
       min-width: 300px !important;
     }
-    #titleNav {
-      margin: 0 !important;
-      h1 {
-        font-size: 30px !important;
-      }
-    }
   }
 .square-box{
     position: relative;

@@ -104,10 +104,9 @@ export default {
     getCurrentDateTime() {
       const date = this.location.localtime.split(/[-\s:]/);
       this.date = new Date(date[0], parseInt(date[1], 10) - 1, date[2], date[3], date[4]);
-      this.dateToDisplay = `${this.days[this.date.getDay()]}, ${this.date.getDate()}. ${this.months[this.date.getMonth()]} ${this.date.getFullYear()}. ${this.date.getHours() < 10 ? '0' + this.date.getHours() : this.date.getHours()}:${this.date.getMinutes() < 10 ? '0' + this.date.getMinutes() : this.date.getMinutes()}`;
+      this.dateToDisplay = `${this.days[this.date.getDay()]}, ${this.date.getDate()}. ${this.months[this.date.getMonth()]} ${this.date.getFullYear()}. ${this.date.getHours() < 10 ? `0${this.date.getHours()}` : this.date.getHours()}:${this.date.getMinutes() < 10 ? `0${this.date.getMinutes()}` : this.date.getMinutes()}`;
     },
     getWeather(lat, lon) {
-      console.log(lat, lon, 'getWeather');
       this.$store.dispatch('getCurrentWeather', [lat, lon]);
     },
     getDateTime(index) {
@@ -135,12 +134,11 @@ export default {
       navigator.geolocation.getCurrentPosition(this.buildUrl, this.geoError);
     },
     geoError() {
-      console.log('error');
+      this.getWeather(0, 0);
     },
     buildUrl(position) {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      console.log(lat, lon, 'buildUrl');
       this.getWeather(lat, lon);
     },
   },
@@ -309,10 +307,6 @@ export default {
       }
     }
   }
-
-
-
-
   .material-icons{
     float: left;
   }
