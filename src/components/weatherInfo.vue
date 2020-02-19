@@ -12,8 +12,8 @@
       <div class="row astro">
         <div class="col m12 l6 s12 ">
           <img class="astroImage" src="../assets/sun.png" alt="Sun image">
-          <h6 class="astroInfo">Sunrise: {{ convertTimeTo24(astro.sunrise) }}</h6>
-          <h6 class="astroInfo">Sunset: {{ convertTimeTo24(astro.sunset) }}</h6>
+          <!-- <h6 class="astroInfo">Sunrise: {{ convertTimeTo24(astro.sunrise) }}</h6>
+          <h6 class="astroInfo">Sunset: {{ convertTimeTo24(astro.sunset) }}</h6> -->
         </div>
         <div class="col m12 l6 s12">
           <img class="astroImage"
@@ -21,9 +21,9 @@
                 alt="Moon image"
                 width="64px"
                 height="64px">
-          <h6 class="astroInfo">Moonrise: {{ convertTimeTo24(astro.moonrise) }}</h6>
+          <!-- <h6 class="astroInfo">Moonrise: {{ convertTimeTo24(astro.moonrise) }}</h6>
           <h6 v-if="astro.moonset === 'No moonset'" class="astroInfo">Moonset: No moonset </h6>
-          <h6 v-else class="astroInfo">Moonset: {{ convertTimeTo24(astro.moonset) }}</h6>
+          <h6 v-else class="astroInfo">Moonset: {{ convertTimeTo24(astro.moonset) }}</h6> -->
         </div>
       </div>
 
@@ -102,6 +102,7 @@ export default {
   },
   methods: {
     getCurrentDateTime() {
+      console.log(this.location, "lokacija");
       const date = this.location.localtime.split(/[-\s:]/);
       this.date = new Date(date[0], parseInt(date[1], 10) - 1, date[2], date[3], date[4]);
       this.dateToDisplay = `${this.days[this.date.getDay()]}, ${this.date.getDate()}. ${this.months[this.date.getMonth()]} ${this.date.getFullYear()}. ${this.date.getHours() < 10 ? `0${this.date.getHours()}` : this.date.getHours()}:${this.date.getMinutes() < 10 ? `0${this.date.getMinutes()}` : this.date.getMinutes()}`;
