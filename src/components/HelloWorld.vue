@@ -36,7 +36,7 @@ export default {
     overflow: hidden;
     margin: auto;
     min-width: 250px;
-    background-color: #323232;
+    background-color: rgba(50, 50, 50, .8);
     border-radius: 20px;
     height: auto;
     min-height: 950px;

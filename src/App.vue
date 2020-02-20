@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="[currentWeather.is_day ? day : night]" id="app">
+  <div v-bind:class="[currentWeather.pod == 'd' ? day : night]" id="app">
       <hello-world x/>
   </div>
 </template>

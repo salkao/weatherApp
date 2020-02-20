@@ -6,6 +6,7 @@ export default {
     state.location = currentWeather.location;
   },
   [types.GET_FORECAST](state, forecast) {
-    state.forecast = forecast.data;
+    const forecastArray = forecast.data.slice(1, 7);
+    state.forecast = forecastArray;
   },
 };

@@ -4,70 +4,62 @@
         <div class="col s12 ">
             <i class="medium material-icons">location_on</i>
           <h5 class="locationText">
-            {{location.name}}, {{ location.country }}
+            {{currentWeather.city_name}}, {{ currentWeather.country_code }}
           </h5>
-          <h6  id="dateTime"> {{ dateToDisplay }}</h6>
         </div>
-      </div>
-      <div class="row astro">
-        <div class="col m12 l6 s12 ">
-          <img class="astroImage" src="../assets/sun.png" alt="Sun image">
-          <!-- <h6 class="astroInfo">Sunrise: {{ convertTimeTo24(astro.sunrise) }}</h6>
-          <h6 class="astroInfo">Sunset: {{ convertTimeTo24(astro.sunset) }}</h6> -->
+        <div class="row">
+          <div class="col m12 l12 s12 dateTime">
+            <h6>Time zone: {{ currentWeather.timezone }}</h6>
+            <h6>Current time: {{ new Date().toLocaleTimeString() }}</h6>
+            <h6>Date: {{ new Date().toLocaleDateString() }}</h6>
+          <!-- <img class="astroImage" src="../assets/sun.png" alt="Sun image">
+          <h6 class="astroInfo">Sunrise: {{ currentWeather.sunrise }}</h6>
+          <h6 class="astroInfo">Sunset: {{ currentWeather.sunset }}</h6> -->
+          </div>
         </div>
-        <div class="col m12 l6 s12">
-          <img class="astroImage"
-                src="../assets/moon.png"
-                alt="Moon image"
-                width="64px"
-                height="64px">
-          <!-- <h6 class="astroInfo">Moonrise: {{ convertTimeTo24(astro.moonrise) }}</h6>
-          <h6 v-if="astro.moonset === 'No moonset'" class="astroInfo">Moonset: No moonset </h6>
-          <h6 v-else class="astroInfo">Moonset: {{ convertTimeTo24(astro.moonset) }}</h6> -->
-        </div>
-      </div>
 
+      </div>
       <div class="row currentInfo">
         <div class="col l4 m6 s6">
           <img id="conditionIcon"
-                v-bind:src="currentWeather.condition.icon"
+                :src="require(`@/assets/icons/${currentWeather.weather.icon}.png`)"
                 alt="Weather icon"
                 width="120px"
                 height="110px">
-          <h6 id="conditionText">{{ currentWeather.condition.text }}</h6>
+          <h6 id="conditionText">{{ currentWeather.weather.description }}</h6>
         </div>
         <div class="col l4 m6 s6 temperature">
-            <h1>{{ currentWeather.temp_c }}&#8451;</h1>
-            <h6 id="feelsLike" >Feels like: {{ currentWeather.feelslike_c }}&#8451;</h6>
+            <h1>{{ currentWeather.temp }}&#8451;</h1>
+            <h6 id="feelsLike" >Feels like: {{ currentWeather.app_temp }}&#8451;</h6>
         </div>
         <div class="col l4 m12 s12">
-            <h6 class="currentTextInfo" >Clouds: {{ currentWeather.cloud }}%</h6>
-            <h6 class="currentTextInfo" >Precipitation: {{ currentWeather.precip_mm }} mm</h6>
-            <h6 class="currentTextInfo" >Humidity: {{ currentWeather.humidity }}%</h6>
-            <h6 class="currentTextInfo" >Pressure: {{ currentWeather.pressure_mb }} mb</h6>
+            <h6 class="currentTextInfo" >Clouds: {{ currentWeather.clouds }}%</h6>
+            <h6 class="currentTextInfo" >Precipitation: {{ currentWeather.precip }} mm/hr</h6>
+            <h6 class="currentTextInfo" >Humidity: {{ currentWeather.rh }}%</h6>
+            <h6 class="currentTextInfo" >Pressure: {{ currentWeather.pres }} mb</h6>
             <h6 class="currentTextInfo" >UV index: {{ currentWeather.uv }}</h6>
         </div>
       </div>
       <div class="row windInfo">
         <div class="col s4">
-            <h6 class="windText" >Wind direction: {{ currentWeather.wind_dir }}</h6>
+            <h6 class="windText" >Wind direction: {{ currentWeather.wind_cdir }}</h6>
         </div>
         <div class="col s4">
-            <h6 class="windText" >Wind degree: {{ currentWeather.wind_degree }}&deg;</h6>
+            <h6 class="windText" >Wind degree: {{ currentWeather.wind_dir }}&deg;</h6>
         </div>
         <div class="col s4">
-            <h6 class="windText" >Wind speed: {{ currentWeather.wind_kph }} kph</h6>
+            <h6 class="windText" >Wind speed: {{ currentWeather.wind_spd }} m/s</h6>
         </div>
       </div>
       <div class="row nextDaysRow">
         <div class="col s2 nextDays" v-for="(forecast, index) in forecasts"  :key="index">
-          <h6 class="nextDaysDate">{{ getDateTime(index) }}</h6>
-          <img v-bind:src="forecast.day.condition.icon" alt="Weather icon">
+          <h6 class="nextDaysDate">{{ forecast.datetime }}</h6>
+          <!-- <img v-bind:src="forecast.day.condition.icon" alt="Weather icon">
           <h6 class="nextDaysTemp">{{roundTemp(forecast.day.maxtemp_c) }}&deg;
             <span id="slash"> / </span>
             <sup>{{ roundTemp(forecast.day.mintemp_c) }}&#8451;</sup>
           </h6>
-          <h6 class="nextDaysConditionText"> {{ forecast.day.condition.text }}</h6>
+          <h6 class="nextDaysConditionText"> {{ forecast.day.condition.text }}</h6> -->
         </div>
       </div>
       <div class="row">
@@ -151,17 +143,21 @@ export default {
       return this.$store.getters.location;
     },
     forecasts() {
-      return this.$store.getters.forecastSixDays;
+      return this.$store.getters.forecast;
     },
-    astro() {
-      return this.$store.getters.astro;
-    },
+    // currentIcon() {
+    //   return require(`@/assets/icons${this.currentWeather.weather.icon}.png`);
+    // },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+    .dateTime {
+      margin-left: 10% !important;
+    }
   @media only screen and (max-width: 1150px) {
+
     .astro {
       padding-left: 0px;
       padding-bottom: 10px !important;

@@ -3,5 +3,4 @@ export default {
   astro: {},
   location: {},
   forecast: {},
-  forecastSixDays: [],
 };
