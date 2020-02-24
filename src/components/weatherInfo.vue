@@ -38,7 +38,7 @@
           <h6 class="currentTextInfo" >Clouds: {{ currentWeather.clouds }}%</h6>
           <h6 class="currentTextInfo" >Precipitation: {{ currentWeather.precip }} mm/hr</h6>
           <h6 class="currentTextInfo" >Humidity: {{ currentWeather.rh }}%</h6>
-          <h6 class="currentTextInfo" >Pressure: {{ currentWeather.pres }} mb</h6>
+          <h6 class="currentTextInfo" >Pressure: {{ currentWeather.pres.toFixed(2) }} mb</h6>
         </div>
         <div class="column">
           <h6 class="currentTextInfo" >UV index: {{ currentWeather.uv }}</h6>
@@ -50,9 +50,9 @@
       </div>
         <hr>
 
-      <div class="row nextDaysRow">
-        <div class="col s2 nextDays" v-for="(forecast, index) in forecasts"  :key="index">
-          <h6 class="nextDaysDate">{{ forecast.datetime }}</h6>
+      <div id="nextDaysContainer" class="container">
+        <div class="nextDays" v-for="(forecast, index) in forecasts"  :key="index">
+          <h6 class="nextDaysDate">{{ new Date(forecast.datetime).getDate() }}.{{ new Date(forecast.datetime).getMonth() + 1 }}</h6>
           <img :src="require(`@/assets/icons/${forecast.weather.icon}.png`)"
                 alt="Weather icon"
                 class="nextDaysImg">
@@ -161,6 +161,17 @@ export default {
     justify-content: center;
     width: 100%;
     margin: 0;
+  }
+  #nextDaysContainer {
+    margin-top: 30px;
+  }
+  .nextDays {
+    border-left: 1px solid #ffffff;
+    text-align: center;
+    width: 20%;
+  }
+  .nextDays:nth-of-type(1) {
+    border: none;
   }
   #textInfo {
     margin-bottom: 20px;
