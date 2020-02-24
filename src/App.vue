@@ -30,19 +30,18 @@ export default {
 </script>
 
 <style lang="scss">
-
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   padding: 50px 50px 150px 50px;
   margin: 0;
-
+  color: #ffffff;
   /* Full height */
   height: 100%;
   width: 100%;
 
   /* Center and scale the image nicely */
-  background-position: fixed;
-  background-repeat: repeat-y;
+  // background-position: fixed;
+  // background-repeat: repeat-y;
   background-size: cover;
 }
 .day {
@@ -52,12 +51,4 @@ export default {
 .night {
   background-image: url('./assets/clearNight.jpg');
 }
-// #app {
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   text-align: center;
-//   color: #2c3e50;
-//   margin: 0;
-//   height: 100%;
-// }
 </style>
