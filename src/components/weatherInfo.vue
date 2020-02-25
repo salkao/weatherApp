@@ -52,7 +52,7 @@
 
       <div id="nextDaysContainer" class="container">
         <div class="nextDays" v-for="(forecast, index) in forecasts"  :key="index">
-          <h6 class="nextDaysDate">{{ new Date(forecast.datetime).getDate() }}.{{ new Date(forecast.datetime).getMonth() + 1 }}</h6>
+          <h6 class="nextDaysDate">{{ new Date(forecast.datetime).getDate() }}.{{ new Date(forecast.datetime).getMonth() + 1 }}.</h6>
           <img :src="require(`@/assets/icons/${forecast.weather.icon}.png`)"
                 alt="Weather icon"
                 class="nextDaysImg">
@@ -63,12 +63,11 @@
           <h6 class="nextDaysConditionText"> {{ forecast.weather.description }}</h6>
         </div>
       </div>
-      <div class="row">
-        <div class="col s12 rBtn">
-          <a @click="geolocation()" class="waves-effect waves-light btn-large myBtn">
-            <i class="material-icons right">refresh</i>
-            refresh
-          </a>
+      <div class="container bottom">
+        <div class="">
+          <button class="myBtn" @click="geolocation()">Refresh
+            <i class="material-icons icon">refresh</i>
+          </button>
         </div>
       </div>
   </div>
@@ -169,6 +168,7 @@ export default {
     border-left: 1px solid #ffffff;
     text-align: center;
     width: 20%;
+    padding: 0 5px;
   }
   .nextDays:nth-of-type(1) {
     border: none;
@@ -192,8 +192,7 @@ export default {
     // margin-left: 30px;
     margin: 0 30px;
   }
-  .conditionIcon {
-  }
+
   .temperature {
     position: relative;
     bottom: 17px;
@@ -222,9 +221,28 @@ export default {
     }
   }
   .myBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 200px;
-    text-align: right;
+    text-align: center;
     background: linear-gradient(to bottom,#3aa7fc, #0845af);
     border-radius: 30px;
+    height: 35px;
+    border: none;
+    color: #ffffff;
+    &:hover {
+      font-weight: bolder;
+    }
+  }
+  .bottom {
+    margin: 20px 0;
+  }
+  .icon {
+    position: relative;
+    top: 1px;
+  }
+  .nextDaysConditionText {
+    font-size: 12px;
   }
 </style>
